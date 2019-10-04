@@ -43,7 +43,7 @@ wget -cN https://dl.fbaipublicfiles.com/clevr/CLEVR_v1.0.zip
 - To view training results and loss plots, run `python -m visdom.server` and click the URL http://localhost:8097.
 - Train a model:
 ```bash
-python train.py --dataroot ./datasets/CLEVR_v1.0 --name clevr_monet --model monet
+python train.py --dataroot /data/vision/billf/jwu-recog/dataset/billf-10/CLEVR_v1.0 --name clevr_monet --model monet
 ```
 To see more intermediate results, check out `./checkpoints/clevr_monet/web/index.html`.
 
