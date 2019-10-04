@@ -1,10 +1,10 @@
-name: pytorch-CycleGAN-and-pix2pix
+name: monet
 channels:
 - peterjc123
 - defaults
 dependencies:
-- python=3.5.5
-- pytorch=0.4.1
+- python=3.7.3
+- pytorch=1.2.0
 - scipy
 - pip:
   - dominate==2.3.1
