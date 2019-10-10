@@ -6,6 +6,9 @@ to_dir = '/data/vision/billf/scratch/ruidongwu/work/MONet-pytorch/data_dir/clevr
 to_move_dirs = os.listdir(ori_dir)
 to_move_dirs.sort()
 
+if not os.path.exists(to_dir):
+    os.makedirs(to_dir)
+
 for k, _dir_ in enumerate(to_move_dirs):
     to_move_pngs = os.listdir(os.path.join(ori_dir,_dir_))
     to_move_pngs.sort()
