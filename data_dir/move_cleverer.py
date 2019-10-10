@@ -11,4 +11,3 @@ for k, _dir_ in enumerate(to_move_dirs):
     to_move_pngs.sort()
     for _png_ in to_move_pngs:
         shutil.copy(os.path.join(ori_dir,_dir_,_png_),os.path.join(to_dir,_dir_+'_'+_png_))
-
