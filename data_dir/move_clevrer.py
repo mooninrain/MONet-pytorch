@@ -14,7 +14,8 @@ for _dir_ in to_move_dirs:
         val_dirs.append(_dir_)
 
 if not os.path.exists(to_dir):
-    os.makedirs(to_dir)
+    os.makedirs(os.path.join(to_dir,'train'))
+    os.makedirs(os.path.join(to_dir,'val'))
 
 print('moving train pngs...')
 for k, _dir_ in enumerate(train_dirs):
