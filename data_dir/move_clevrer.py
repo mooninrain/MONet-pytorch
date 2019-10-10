@@ -8,11 +8,17 @@ to_move_dirs = os.listdir(ori_dir)
 to_move_dirs.sort()
 torch.manual_seed(123)
 perm = torch.randperm(len(to_move_dirs))
-to_move_dirs = to_move_dirs[perm]
 
-train_dirs = to_move_dirs[:int(0.8*len(to_move_dirs))]
-val_dirs = to_move_dirs[int(0.8*len(to_move_dirs)):int(0.9*len(to_move_dirs))]
-test_dirs = to_move_dirs[int(0.9*len(to_move_dirs)):]
+train_dirs = []
+val_dirs = []
+test_dirs = []
+for index,_dir_ in enumerate(to_move_dirs):
+    if index in perm[:int(0.8*len(to_move_dirs))]:
+        train_dirs.append(_dir_)
+    elif index in perm[int(0.8*len(to_move_dirs)):int(0.9*len(to_move_dirs))]:
+        val_dirs.append(_dir_)
+    else:
+        test_dirs.append(_dir_)
 
 if not os.path.exists(to_dir):
     os.makedirs(os.path.join(to_dir,'train'))
