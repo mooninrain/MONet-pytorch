@@ -1,8 +1,6 @@
 import os
 import shutil
 
-shutil.copy(os.path.join(save_dir3,'pubchem_small_re0.pt'),os.path.join(save_dir1,'pubchem_tiny.pt'))
-
 ori_dir = '/data/vision/billf/scratch/kyi/projects/temporal-physics-reasoning/data/clevrer/ver1.0/frames'
 to_dir = '/data/vision/billf/scratch/ruidongwu/work/MONet-pytorch/data_dir/clevrer'
 to_move_dirs = os.listdir(ori_dir)
