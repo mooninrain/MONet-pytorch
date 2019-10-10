@@ -1,6 +1,9 @@
 import os
 import torch
+import random
 import shutil
+
+random.seed(123)
 
 ori_dir = '/data/vision/billf/scratch/kyi/projects/temporal-physics-reasoning/data/clevrer/ver1.0/frames'
 to_dir = '/data/vision/billf/scratch/ruidongwu/work/MONet-pytorch/data_dir/clevrer/images'
