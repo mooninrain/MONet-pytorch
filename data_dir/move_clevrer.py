@@ -16,13 +16,17 @@ for _dir_ in to_move_dirs:
 if not os.path.exists(to_dir):
     os.makedirs(to_dir)
 
+print('moving train pngs...')
 for k, _dir_ in enumerate(train_dirs):
+    print('{:d}/{:d}\r'.format(k,len(train_dirs)),end='',flush=True)
     to_move_pngs = os.listdir(os.path.join(ori_dir,_dir_))
     to_move_pngs = random.sample(to_move_pngs,1)
     for _png_ in to_move_pngs:
         shutil.copy(os.path.join(ori_dir,_dir_,_png_),os.path.join(to_dir,'train',_dir_+'_'+_png_))
 
+print('moving dev pngs...')
 for k, _dir_ in enumerate(val_dirs):
+    print('{:d}/{:d}\r'.format(k,len(val_dirs)),end='',flush=True)
     to_move_pngs = os.listdir(os.path.join(ori_dir,_dir_))
     to_move_pngs = random.sample(to_move_pngs,1)
     for _png_ in to_move_pngs:
