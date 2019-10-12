@@ -36,13 +36,17 @@ from models import create_model
 from util.visualizer import save_images
 from util import html
 
+import cv2
 import jaclearn.vision.coco.mask_utils as mask_utils
 
 def mask_preprocess(in_masks):
+    out_masks = []
     for index, mask in enumerate(in_masks):
-        in_masks[index] = np.array(mask>0,dtype=np.uint8,order='F')
+        temp_mask = np.array(mask>0,dtype=np.uint8,order='F')
+        temp_mask = cv2.blur(temp_mask,(3,3))
+        print(np.sum(temp_mask))
+        out_masks.append(temp_mask)
 
-    out_masks = in_masks
     return out_masks
 
 def mask_compress(in_masks):
