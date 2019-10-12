@@ -58,7 +58,7 @@ if __name__ == '__main__':
     model = create_model(opt)      # create a model given opt.model and other options
     model.setup(opt)               # regular setup: load and print networks; create schedulers
 
-    with open(os.path.join(opt.dataroot,'CLEVR_train_scenes.json'),'r') as r:
+    with open(os.path.join(opt.dataroot,'scenes','CLEVR_train_scenes.json'),'r') as r:
         data_train_scenes = json.load(r)
     for i, data in enumerate(dataset_train):
         model.set_input(data)  # unpack data from data loader
