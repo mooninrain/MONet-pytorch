@@ -58,12 +58,16 @@ if __name__ == '__main__':
     model = create_model(opt)      # create a model given opt.model and other options
     model.setup(opt)               # regular setup: load and print networks; create schedulers
 
+    with open(os.path.join(opt.dataroot,'CLEVR_train_scenes.json'),'r') as r:
+        data_train_scenes = json.load(r)
     for i, data in enumerate(dataset_train):
         model.set_input(data)  # unpack data from data loader
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
+        masks = [mask_utils.encode(np.array(visuals['m%d'%i].squeeze().unsqueeze(-1).numpy()>=0,dtype=np.uint8,order='F')) for i in range(11)]
 
-        print(visuals['m0'].shape)
+        print(model.get_image_paths())
+        print(masks[0])
         break
 
         # img_path = model.get_image_paths()     # get image paths
