@@ -60,7 +60,7 @@ if __name__ == '__main__':
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
         masks = [mask_utils.encode(np.array(visuals['m%d'%i].squeeze().unsqueeze(-1).cpu().numpy()>=0,dtype=np.uint8,order='F')) for i in range(11)]
-        data_train_scenes['scenes'][int(model.get_image_paths()[-10:-4])]['objects_detection'] = masks
+        data_train_scenes['scenes'][int(model.get_image_paths()[0][-10:-4])]['objects_detection'] = masks
     with open(os.path.join(opt.results_dir,'scenes_train.json'),'w') as w:
         json.dump(data_train_scenes,w)
 
@@ -74,6 +74,6 @@ if __name__ == '__main__':
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
         masks = [mask_utils.encode(np.array(visuals['m%d'%i].squeeze().unsqueeze(-1).cpu().numpy()>=0,dtype=np.uint8,order='F')) for i in range(11)]
-        data_val_scenes['scenes'][int(model.get_image_paths()[-10:-4])]['objects_detection'] = masks
+        data_val_scenes['scenes'][int(model.get_image_paths()[0][-10:-4])]['objects_detection'] = masks
     with open(os.path.join(opt.results_dir,'scenes_val.json'),'w') as w:
         json.dump(data_val_scenes,w)
