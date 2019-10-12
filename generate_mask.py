@@ -56,6 +56,8 @@ if __name__ == '__main__':
     with open(os.path.join(opt.dataroot,'scenes','CLEVR_train_scenes.json'),'r') as r:
         data_train_scenes = json.load(r)
     for i, data in enumerate(dataset_train):
+        if i % 5 == 0:
+            print("{:d}/{:d}\r".format(i,len(dataset_train)),end='',flush=True)
         model.set_input(data)  # unpack data from data loader
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
@@ -71,6 +73,8 @@ if __name__ == '__main__':
     with open(os.path.join(opt.dataroot,'scenes','CLEVR_val_scenes.json'),'r') as r:
         data_val_scenes = json.load(r)
     for i, data in enumerate(dataset_val):
+        if i % 5 == 0:
+            print("{:d}/{:d}\r".format(i,len(dataset_train)),end='',flush=True)
         model.set_input(data)  # unpack data from data loader
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
