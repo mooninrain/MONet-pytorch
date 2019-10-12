@@ -38,6 +38,21 @@ from util import html
 
 import jaclearn.vision.coco.mask_utils as mask_utils
 
+def mask_preprocess(in_masks):
+    for index, mask in enumerate(in_masks):
+        in_masks[index] = np.array(mask>0,dtype=np.uint8,order='F')
+
+    out_masks = in_masks
+    return out_masks
+
+def mask_compress(in_masks):
+    out_rles = []
+    for mask in masks:
+        temp = mask_utils.encode(mask)
+        temp['counts'] = temp['counts'].decode()
+        out_rles.append(temp)
+    return out_rles
+
 if __name__ == '__main__':
     opt = MaskOptions().parse()  # get test options
     # hard-code some parameters for test
@@ -63,8 +78,8 @@ if __name__ == '__main__':
         model.set_input(data)  # unpack data from data loader
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
-        masks = [mask_utils.encode(np.array(visuals['m%d'%i].squeeze().unsqueeze(-1).cpu().numpy()>=0,dtype=np.uint8,order='F')) for i in range(11)]
-        data_train_scenes['scenes'][int(model.get_image_paths()[0][-10:-4])]['objects_detection'] = masks
+        rles = mask_compress(mask_preprocess([visuals['m%d'%i].squeeze().unsqueeze(-1).cpu().numpy() for i in range(11)]))
+        data_train_scenes['scenes'][int(model.get_image_paths()[0][-10:-4])]['objects_detection'] = rles
     with open(os.path.join(opt.results_dir,'scenes_train.json'),'w') as w:
         print('saving scenes_train.json...')
         json.dump(data_train_scenes,w)
@@ -80,8 +95,8 @@ if __name__ == '__main__':
         model.set_input(data)  # unpack data from data loader
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
-        masks = [mask_utils.encode(np.array(visuals['m%d'%i].squeeze().unsqueeze(-1).cpu().numpy()>=0,dtype=np.uint8,order='F')) for i in range(11)]
-        data_val_scenes['scenes'][int(model.get_image_paths()[0][-10:-4])]['objects_detection'] = masks
+        rles = mask_compress(mask_preprocess([visuals['m%d'%i].squeeze().unsqueeze(-1).cpu().numpy() for i in range(11)]))
+        data_val_scenes['scenes'][int(model.get_image_paths()[0][-10:-4])]['objects_detection'] = rles
     with open(os.path.join(opt.results_dir,'scenes_val.json'),'w') as w:
         print('saving scenes_val.json...')
         json.dump(data_val_scenes,w)
