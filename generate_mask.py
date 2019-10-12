@@ -28,6 +28,7 @@ See frequently asked questions at: https://github.com/junyanz/pytorch-CycleGAN-a
 """
 import os
 import json
+import numpy as np
 from copy import deepcopy
 from options.mask_options import MaskOptions
 from data import create_dataset
