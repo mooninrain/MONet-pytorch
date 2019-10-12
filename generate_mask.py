@@ -47,19 +47,12 @@ if __name__ == '__main__':
     opt.no_flip = True    # no flip; comment this line if results on flipped images are needed.
     opt.display_id = -1   # no visdom display; the test code saves the results to a HTML file.
 
-    opt_train = deepcopy(opt)
-    opt_train.dataset_type = 'train'
-    dataset_train = create_dataset(opt_train)  # create a dataset given opt.dataset_mode and other options
-    opt_val = deepcopy(opt)
-    opt_val.dataset_type = 'val'
-    dataset_val = create_dataset(opt_val)  # create a dataset given opt.dataset_mode and other options
-    opt_test = deepcopy(opt)
-    opt_test.dataset_type = 'test'
-    dataset_test = create_dataset(opt_test)  # create a dataset given opt.dataset_mode and other options
-
     model = create_model(opt)      # create a model given opt.model and other options
     model.setup(opt)               # regular setup: load and print networks; create schedulers
 
+    opt_train = deepcopy(opt)
+    opt_train.dataset_type = 'train'
+    dataset_train = create_dataset(opt_train)  # create a dataset given opt.dataset_mode and other options
     with open(os.path.join(opt.dataroot,'scenes','CLEVR_train_scenes.json'),'r') as r:
         data_train_scenes = json.load(r)
     for i, data in enumerate(dataset_train):
@@ -67,11 +60,20 @@ if __name__ == '__main__':
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
         masks = [mask_utils.encode(np.array(visuals['m%d'%i].squeeze().unsqueeze(-1).cpu().numpy()>=0,dtype=np.uint8,order='F')) for i in range(11)]
+        data_train_scenes['scenes'][int(model.get_image_paths()[-10:-4])]['objects_detection'] = masks
+    with open(os.path.join(opt.results_dir,'scenes_train.json'),'w') as w:
+        json.dump(data_train_scenes,w)
 
-        print(model.get_image_paths())
-        print(masks[0])
-        break
-
-        # img_path = model.get_image_paths()     # get image paths
-        # if i % 5 == 0:  # save images to an HTML file
-        #     print('processing (%04d)-th image... %s' % (i, img_path))
+    opt_val = deepcopy(opt)
+    opt_val.dataset_type = 'val'
+    dataset_val = create_dataset(opt_val)  # create a dataset given opt.dataset_mode and other options
+    with open(os.path.join(opt.dataroot,'scenes','CLEVR_val_scenes.json'),'r') as r:
+        data_val_scenes = json.load(r)
+    for i, data in enumerate(dataset_val):
+        model.set_input(data)  # unpack data from data loader
+        model.test()           # run inference
+        visuals = model.get_current_visuals()  # get image results
+        masks = [mask_utils.encode(np.array(visuals['m%d'%i].squeeze().unsqueeze(-1).cpu().numpy()>=0,dtype=np.uint8,order='F')) for i in range(11)]
+        data_val_scenes['scenes'][int(model.get_image_paths()[-10:-4])]['objects_detection'] = masks
+    with open(os.path.join(opt.results_dir,'scenes_val.json'),'w') as w:
+        json.dump(data_val_scenes,w)
