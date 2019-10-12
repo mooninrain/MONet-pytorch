@@ -66,7 +66,7 @@ if __name__ == '__main__':
         model.set_input(data)  # unpack data from data loader
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
-        masks = [mask_utils.encode(np.array(visuals['m%d'%i].squeeze().unsqueeze(-1).numpy()>=0,dtype=np.uint8,order='F')) for i in range(11)]
+        masks = [mask_utils.encode(np.array(visuals['m%d'%i].squeeze().unsqueeze(-1).cpu().numpy()>=0,dtype=np.uint8,order='F')) for i in range(11)]
 
         print(model.get_image_paths())
         print(masks[0])
