@@ -62,6 +62,7 @@ if __name__ == '__main__':
         masks = [mask_utils.encode(np.array(visuals['m%d'%i].squeeze().unsqueeze(-1).cpu().numpy()>=0,dtype=np.uint8,order='F')) for i in range(11)]
         data_train_scenes['scenes'][int(model.get_image_paths()[0][-10:-4])]['objects_detection'] = masks
     with open(os.path.join(opt.results_dir,'scenes_train.json'),'w') as w:
+        print('saving scenes_train.json...')
         json.dump(data_train_scenes,w)
 
     opt_val = deepcopy(opt)
@@ -76,4 +77,5 @@ if __name__ == '__main__':
         masks = [mask_utils.encode(np.array(visuals['m%d'%i].squeeze().unsqueeze(-1).cpu().numpy()>=0,dtype=np.uint8,order='F')) for i in range(11)]
         data_val_scenes['scenes'][int(model.get_image_paths()[0][-10:-4])]['objects_detection'] = masks
     with open(os.path.join(opt.results_dir,'scenes_val.json'),'w') as w:
+        print('saving scenes_val.json...')
         json.dump(data_val_scenes,w)
