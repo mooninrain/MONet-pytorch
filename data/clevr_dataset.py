@@ -28,7 +28,10 @@ class CLEVRDataset(BaseDataset):
             opt (Option class) -- stores all the experiment flags; needs to be a subclass of BaseOptions
         """
         BaseDataset.__init__(self, opt)
-        p = os.path.join(opt.dataroot, 'images', 'train' if opt.isTrain else 'test')
+        if 'dataset_type' in opt:
+            p = os.path.join(opt.dataroot, 'images', opt.dataset_type)
+        else:
+            p = os.path.join(opt.dataroot, 'images', 'train' if opt.isTrain else 'test')
         self.A_paths = sorted(make_dataset(p, opt.max_dataset_size))
 
     def _transform(self, img):
