@@ -55,7 +55,7 @@ def mask_compress(in_masks):
     for mask in in_masks:
         temp = mask_utils.encode(mask)[0]
         temp['counts'] = temp['counts'].decode()
-        out_rles.append(temp)
+        out_rles.append({'mask':temp})
     return out_rles
 
 if __name__ == '__main__':
