@@ -49,6 +49,8 @@ if __name__ == '__main__':
 
     model = create_model(opt)      # create a model given opt.model and other options
     model.setup(opt)               # regular setup: load and print networks; create schedulers
+    if not os.path.exists(opt.results_dir):
+        os.makedirs(opt.results_dir)
 
     opt_train = deepcopy(opt)
     opt_train.dataset_type = 'train'
