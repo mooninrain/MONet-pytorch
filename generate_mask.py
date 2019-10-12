@@ -45,6 +45,7 @@ def mask_preprocess(in_masks):
         temp_mask = np.array(mask>0,dtype=np.uint8,order='F')
         temp_mask = cv2.blur(temp_mask,(3,3))
         print(np.sum(temp_mask))
+        check=input('check')
         out_masks.append(temp_mask)
 
     return out_masks
