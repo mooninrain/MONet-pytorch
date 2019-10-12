@@ -63,8 +63,7 @@ if __name__ == '__main__':
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
 
-        print(visuals['m0'])
-        print(visuals['m1'])
+        print(visuals['m0'].shape)
         break
 
         # img_path = model.get_image_paths()     # get image paths
