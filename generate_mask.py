@@ -39,17 +39,16 @@ from util import html
 import cv2
 import jaclearn.vision.coco.mask_utils as mask_utils
 
-def mask_preprocess(in_masks):
+def mask_preprocess(in_masks,clean=False):
     out_masks = []
     for index, mask in enumerate(in_masks):
         temp_mask = np.array(mask>0,dtype=np.uint8)
         temp_mask = cv2.blur(temp_mask,(3,3))
-        print(np.sum(temp_mask))
-        check=input('check')
-
         temp_mask = np.array(temp_mask,dtype=np.uint8,order='F')
-        out_masks.append(temp_mask)
 
+        if np.sum(temp_mask)<=20:
+            continue
+        out_masks.append(temp_mask)
     return out_masks
 
 def mask_compress(in_masks):
