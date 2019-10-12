@@ -42,10 +42,12 @@ import jaclearn.vision.coco.mask_utils as mask_utils
 def mask_preprocess(in_masks):
     out_masks = []
     for index, mask in enumerate(in_masks):
-        temp_mask = np.array(mask>0,dtype=np.uint8,order='F')
+        temp_mask = np.array(mask>0,dtype=np.uint8)
         temp_mask = cv2.blur(temp_mask,(3,3))
         print(np.sum(temp_mask))
         check=input('check')
+
+        temp_mask = np.array(temp_mask,dtype=np.uint8,order='F')
         out_masks.append(temp_mask)
 
     return out_masks
