@@ -44,7 +44,7 @@ def mask_preprocess(in_masks,clean=False):
     for index, mask in enumerate(in_masks):
         # if index==0:
         #     continue
-        mask = cv2.resize(mask, dsize=(320, 480), interpolation=cv2.INTER_CUBIC)
+        mask = cv2.resize(mask, dsize=(480, 320), interpolation=cv2.INTER_CUBIC)
         temp_mask = np.array(mask>0,dtype=np.uint8)
         temp_mask = cv2.blur(temp_mask,(3,3))
         temp_mask = np.array(temp_mask,dtype=np.uint8,order='F')
