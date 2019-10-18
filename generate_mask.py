@@ -51,7 +51,6 @@ def mask_preprocess(in_masks,clean=False):
 
         # if np.sum(temp_mask)<=20:
         #     continue
-        print(temp_mask.shape)
         print(np.sum(temp_mask))
         out_masks.append(temp_mask)
 
