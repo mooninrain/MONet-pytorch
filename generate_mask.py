@@ -74,6 +74,23 @@ if __name__ == '__main__':
     if not os.path.exists(opt.results_dir):
         os.makedirs(opt.results_dir)
 
+    opt_val = deepcopy(opt)
+    opt_val.dataset_type = 'val'
+    dataset_val = create_dataset(opt_val)  # create a dataset given opt.dataset_mode and other options
+    with open(os.path.join(opt.dataroot,'scenes','CLEVR_val_scenes.json'),'r') as r:
+        data_val_scenes = json.load(r)
+    for i, data in enumerate(dataset_val):
+        if i % 5 == 0:
+            print("{:d}/{:d}\r".format(i,len(dataset_train)),end='',flush=True)
+        model.set_input(data)  # unpack data from data loader
+        model.test()           # run inference
+        visuals = model.get_current_visuals()  # get image results
+        rles = mask_compress(mask_preprocess([visuals['m%d'%i].squeeze().unsqueeze(-1).cpu().numpy() for i in range(11)]))
+        data_val_scenes['scenes'][int(model.get_image_paths()[0][-10:-4])]['objects_detection'] = rles
+    with open(os.path.join(opt.results_dir,'scenes_val.json'),'w') as w:
+        print('saving scenes_val.json...')
+        json.dump(data_val_scenes,w)
+
     opt_train = deepcopy(opt)
     opt_train.dataset_type = 'train'
     dataset_train = create_dataset(opt_train)  # create a dataset given opt.dataset_mode and other options
@@ -91,19 +108,3 @@ if __name__ == '__main__':
         print('saving scenes_train.json...')
         json.dump(data_train_scenes,w)
 
-    opt_val = deepcopy(opt)
-    opt_val.dataset_type = 'val'
-    dataset_val = create_dataset(opt_val)  # create a dataset given opt.dataset_mode and other options
-    with open(os.path.join(opt.dataroot,'scenes','CLEVR_val_scenes.json'),'r') as r:
-        data_val_scenes = json.load(r)
-    for i, data in enumerate(dataset_val):
-        if i % 5 == 0:
-            print("{:d}/{:d}\r".format(i,len(dataset_train)),end='',flush=True)
-        model.set_input(data)  # unpack data from data loader
-        model.test()           # run inference
-        visuals = model.get_current_visuals()  # get image results
-        rles = mask_compress(mask_preprocess([visuals['m%d'%i].squeeze().unsqueeze(-1).cpu().numpy() for i in range(11)]))
-        data_val_scenes['scenes'][int(model.get_image_paths()[0][-10:-4])]['objects_detection'] = rles
-    with open(os.path.join(opt.results_dir,'scenes_val.json'),'w') as w:
-        print('saving scenes_val.json...')
-        json.dump(data_val_scenes,w)
