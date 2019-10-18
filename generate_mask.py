@@ -54,6 +54,8 @@ def mask_preprocess(in_masks,clean=False):
         print(temp_mask.shape)
         print(np.sum(temp_mask))
         out_masks.append(temp_mask)
+
+    check=input('check')
     return out_masks
 
 def mask_compress(in_masks):
