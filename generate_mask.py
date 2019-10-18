@@ -50,8 +50,6 @@ def mask_preprocess(in_masks,clean=False):
         if index==0 or np.sum(temp_mask)<=1000:
             continue
         out_masks.append(temp_mask)
-
-    check=input('check')
     return out_masks
 
 def mask_compress(in_masks):
