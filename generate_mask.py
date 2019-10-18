@@ -81,7 +81,7 @@ if __name__ == '__main__':
         data_val_scenes = json.load(r)
     for i, data in enumerate(dataset_val):
         if i % 5 == 0:
-            print("{:d}/{:d}\r".format(i,len(dataset_train)),end='',flush=True)
+            print("{:d}/{:d}\r".format(i,len(dataset_val)),end='',flush=True)
         model.set_input(data)  # unpack data from data loader
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
