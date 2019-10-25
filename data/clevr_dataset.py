@@ -17,8 +17,8 @@ class CLEVRDataset(BaseDataset):
     def modify_commandline_options(parser, is_train):
         parser.add_argument('--crop_i',default=64,type=int)
         parser.add_argument('--crop_j',default=29,type=int)
-        parser.add_argument('--crop_h',default=224,type=int)
-        parser.add_argument('--crop_w',default=422,type=int)
+        parser.add_argument('--crop_h',default=192,type=int)
+        parser.add_argument('--crop_w',default=192,type=int)
         parser.set_defaults(input_nc=3, output_nc=3,
                             load_size=64,  # before resize
                             num_slots=11, display_ncols=11)
