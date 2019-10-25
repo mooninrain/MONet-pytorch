@@ -629,7 +629,7 @@ class ComponentVAE(nn.Module):
         self._input_nc = input_nc
         self._z_dim = z_dim
         # full_res = False # full res: 128x128, low res: 64x64
-        h_dim = 4096 if full_res else 1024
+        h_dim = 1024 * 4 * 4
         self.encoder = nn.Sequential(
             nn.Conv2d(input_nc + 1, 32, 3, stride=2, padding=1),
             nn.ReLU(True),
