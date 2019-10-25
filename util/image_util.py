@@ -9,10 +9,12 @@ import os
 import cv2
 import jaclearn.vision.coco.mask_utils as mask_utils
 
-def crop_and_resize(img,opt)
-    img = TF.resized_crop(img, 64, 29, opt.crop_size, opt.crop_size, opt.load_size)
+def crop_and_resize(img,i,j,ori_len,resize_len):
+    img = TF.resized_crop(img, i, j, ori_len, ori_len, resize_len)
     img = TF.to_tensor(img)
-    img = TF.normalize(img, [0.5] * opt.input_nc, [0.5] * opt.input_nc)
     return img
 
-def resize_and_pad(img):
+def resize_and_pad(img,i,j,ori_len,ori_h,ori_w):
+    img = TF.resize(img,(ori_len,ori_len))
+    img = TF.pad(img,(j,i,ori_w-j-ori_len,ori_h-i-ori_len),fill=0,padding_mode='constant')
+    return img
