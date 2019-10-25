@@ -114,7 +114,7 @@ if __name__ == '__main__':
         if len(data_train_scenes_reference['scenes'][int(model.get_image_paths()[0][-10:-4])]['objects_detection']) == 0:
             model.test()           # run inference
             visuals = model.get_current_visuals()  # get image results
-            rles = mask_compress(mask_preprocess([visuals['m%d'%i].squeeze().unsqueeze(-1).cpu().numpy() for i in range(11)]))
+            rles = mask_compress(mask_preprocess([visuals['m%d'%i].squeeze().unsqueeze(-1).cpu().numpy() for i in range(1)]))
             data_train_scenes_reference['scenes'][int(model.get_image_paths()[0][-10:-4])]['objects_detection'] = rles
 
     with open('/data/vision/billf/scratch/ruidongwu/work/nscls/NSCL1/data_dir/clevr_monet_mask_ori/train/scenes.json','w') as w:
