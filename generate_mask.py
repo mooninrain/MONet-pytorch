@@ -48,9 +48,9 @@ def mask_preprocess(in_masks,clean=False):
 
         # temp_mask = TF.resize(temp_mask,(192,192))
         # temp_mask = TF.pad(temp_mask,(29,64,480-29-192,320-64-192))
-        temp_mask = cv2.resize(temp_mask,(480,320))
+        temp_mask = cv2.resize(temp_mask,(192,192))
         temp_mask = cv2.copyMakeBorder(temp_mask,64,320-64-192,29,480-29-192)
-        
+
         temp_mask = np.array(temp_mask,dtype=np.uint8,order='F')
         print(temp_mask.shape)
 
