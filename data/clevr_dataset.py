@@ -41,7 +41,6 @@ class CLEVRDataset(BaseDataset):
         img = TF.resized_crop(img, self.opt.crop_i, self.opt.crop_j, self.opt.crop_h, self.opt.crop_w, (self.opt.load_size,self.opt.load_size))
         img = TF.to_tensor(img)
         img = TF.normalize(img, [0.5] * self.opt.input_nc, [0.5] * self.opt.input_nc)
-        print(img.shape)
         return img
 
     def __getitem__(self, index):
