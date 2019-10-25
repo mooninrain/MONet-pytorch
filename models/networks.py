@@ -4,7 +4,7 @@ import torch.nn.functional as F
 from torch.nn import init
 import functools
 from torch.optim import lr_scheduler
-
+import math
 
 ###############################################################################
 # Helper Functions
@@ -739,15 +739,17 @@ class Attention(nn.Module):
         It is a recursive process.
         """
         super(Attention, self).__init__()
-        self.downblock1 = AttentionBlock(input_nc + 1, ngf)
-        self.downblock2 = AttentionBlock(ngf, ngf * 2)
-        self.downblock3 = AttentionBlock(ngf * 2, ngf * 4)
-        self.downblock4 = AttentionBlock(ngf * 4, ngf * 8)
-        self.downblock5 = AttentionBlock(ngf * 8, ngf * 16)
-        self.downblock6 = AttentionBlock(ngf * 16, ngf * 32)
-        self.downblock7 = AttentionBlock(ngf * 32, ngf * 32, resize=False)
-        # no resizing occurs in the last block of each path
-        # self.downblock6 = AttentionBlock(ngf * 8, ngf * 8, resize=False)
+        n_layers = math.log(load_size,2)-1
+
+        downblocks = []
+        upblocks = []
+        for k in range(n_layers):
+            if k == 0:
+                downblocks.append(AttentionBlock(input_nc + 1, ngf))
+            elif k == n_layers-1:
+                downblocks.append(AttentionBlock(ngf * int(2**(k-1)), ngf * int(2**k),resize=False))
+            else:
+                downblocks.append(AttentionBlock(ngf * int(2**(k-1)), ngf * int(2**(k-1))))
 
         self.mlp = nn.Sequential(
             nn.Linear(int(load_size/16) * int(load_size/16) * ngf * 32, 128),
@@ -757,6 +759,14 @@ class Attention(nn.Module):
             nn.Linear(128, int(load_size/16) * int(load_size/16) * ngf * 32),
             nn.ReLU(),
         )
+
+        for k in range(n_layers):
+            if k == 0:
+                downblocks.append(AttentionBlock(input_nc + 1, ngf))
+            elif k == n_layers-1:
+                downblocks.append(AttentionBlock(ngf * int(2**(k-1)), ngf * int(2**k),resize=False))
+            else:
+                downblocks.append(AttentionBlock(ngf * int(2**(k-1)), ngf * int(2**(k-1))))
 
         # self.upblock1 = AttentionBlock(2 * ngf * 8, ngf * 8)
         self.upblock2 = AttentionBlock(2 * ngf * 32, ngf * 32)
