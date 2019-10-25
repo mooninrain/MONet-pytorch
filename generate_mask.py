@@ -52,7 +52,6 @@ def mask_preprocess(in_masks,clean=False):
         temp_mask = cv2.copyMakeBorder(temp_mask,64,320-64-192,29,480-29-192,cv2.BORDER_CONSTANT,value=0)
 
         temp_mask = np.array(temp_mask,dtype=np.uint8,order='F')
-        print(temp_mask.shape)
 
         if index==0 or np.sum(temp_mask)<=1000:
             continue
