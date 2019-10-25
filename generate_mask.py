@@ -53,9 +53,12 @@ def mask_preprocess(in_masks,clean=False):
 
         temp_mask = np.array(temp_mask,dtype=np.uint8,order='F')
 
-        if index==0 or np.sum(temp_mask)<=1000:
+        if np.sum(temp_mask)<=1000:
             continue
         out_masks.append(temp_mask)
+
+    if len(out_masks)>1:
+        out_masks = out_masks[1:]
     return out_masks
 
 def mask_compress(in_masks):
