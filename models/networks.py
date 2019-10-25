@@ -727,7 +727,7 @@ class AttentionBlock(nn.Module):
 class Attention(nn.Module):
     """Create a Unet-based generator"""
 
-    def __init__(self, input_nc, output_nc, ngf=64):
+    def __init__(self, input_nc, output_nc, ngf=64, load_size):
         """Construct a Unet generator
         Parameters:
             input_nc (int)  -- the number of channels in input images
@@ -749,11 +749,11 @@ class Attention(nn.Module):
         # self.downblock6 = AttentionBlock(ngf * 8, ngf * 8, resize=False)
 
         self.mlp = nn.Sequential(
-            nn.Linear(4 * 4 * ngf * 8, 128),
+            nn.Linear(int(load_size/16) * int(load_size/16) * ngf * 8, 128),
             nn.ReLU(),
             nn.Linear(128, 128),
             nn.ReLU(),
-            nn.Linear(128, 4 * 4 * ngf * 8),
+            nn.Linear(128, int(load_size/16) * int(load_size/16) * ngf * 8),
             nn.ReLU(),
         )
 
