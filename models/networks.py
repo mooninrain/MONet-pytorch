@@ -749,11 +749,11 @@ class Attention(nn.Module):
         # self.downblock6 = AttentionBlock(ngf * 8, ngf * 8, resize=False)
 
         self.mlp = nn.Sequential(
-            nn.Linear(load_size / 16 * 4 * ngf * 8, 128),
+            nn.Linear(int(load_size / 16) * 4 * ngf * 8, 128),
             nn.ReLU(),
             nn.Linear(128, 128),
             nn.ReLU(),
-            nn.Linear(128, load_size / 16 * 4 * ngf * 8),
+            nn.Linear(128, int(load_size / 16) * 4 * ngf * 8),
             nn.ReLU(),
         )
 
