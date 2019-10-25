@@ -19,5 +19,11 @@ class MaskOptions(BaseOptions):
         parser.set_defaults(model='test')
         # To avoid cropping, the load_size should be the same as crop_size
         parser.set_defaults(load_size=parser.get_default('crop_size'))
+
+        parser.add_argument('--crop_i',default=64,type=int)
+        parser.add_argument('--crop_j',default=29,type=int)
+        parser.add_argument('--crop_h',default=192,type=int)
+        parser.add_argument('--crop_w',default=192,type=int)
+
         self.isTrain = False
         return parser
