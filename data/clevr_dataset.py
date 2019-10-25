@@ -15,8 +15,11 @@ class CLEVRDataset(BaseDataset):
 
     @staticmethod
     def modify_commandline_options(parser, is_train):
+        parser.add_argument('--crop_i',default=64,type=int)
+        parser.add_argument('--crop_j',default=29,type=int)
+        parser.add_argument('--crop_h',default=192,type=int)
+        parser.add_argument('--crop_w',default=192,type=int)
         parser.set_defaults(input_nc=3, output_nc=3,
-                            crop_size=192, # crop is done first
                             load_size=64,  # before resize
                             num_slots=11, display_ncols=11)
         return parser
@@ -35,7 +38,7 @@ class CLEVRDataset(BaseDataset):
         self.A_paths = sorted(make_dataset(p, opt.max_dataset_size))
 
     def _transform(self, img):
-        img = TF.resized_crop(img, 64, 29, self.opt.crop_size, self.opt.crop_size, self.opt.load_size)
+        img = TF.resized_crop(img, self.opt.crop_i, self.opt.crop_j, self.opt.crop_h, self.opt.crop_w, self.opt.load_size)
         img = TF.to_tensor(img)
         img = TF.normalize(img, [0.5] * self.opt.input_nc, [0.5] * self.opt.input_nc)
         return img
