@@ -726,8 +726,7 @@ class AttentionBlock(nn.Module):
 
 class Attention(nn.Module):
     """Create a Unet-based generator"""
-
-    def __init__(self, input_nc, output_nc, ngf=64, load_size):
+    def __init__(self, input_nc, output_nc, ngf=64, load_size=64):
         """Construct a Unet generator
         Parameters:
             input_nc (int)  -- the number of channels in input images
