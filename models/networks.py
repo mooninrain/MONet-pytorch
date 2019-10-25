@@ -624,12 +624,12 @@ class Flatten(nn.Module):
 
 class ComponentVAE(nn.Module):
 
-    def __init__(self, input_nc, z_dim=16, full_res=False):
+    def __init__(self, input_nc, z_dim=16, full_res=False, load_size=64):
         super().__init__()
         self._input_nc = input_nc
         self._z_dim = z_dim
         # full_res = False # full res: 128x128, low res: 64x64
-        h_dim = 1024 * 4 * 4
+        h_dim = 1024 * int(load_size/64) * int(load_size/64)
         self.encoder = nn.Sequential(
             nn.Conv2d(input_nc + 1, 32, 3, stride=2, padding=1),
             nn.ReLU(True),
