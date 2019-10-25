@@ -36,6 +36,7 @@ from models import create_model
 from util.visualizer import save_images
 from util import html
 
+import torchvision.transforms.functional as TF
 import cv2
 import jaclearn.vision.coco.mask_utils as mask_utils
 
@@ -44,8 +45,10 @@ def mask_preprocess(in_masks,clean=False):
     for index, mask in enumerate(in_masks):
         temp_mask = np.array(mask>0,dtype=np.uint8)
         temp_mask = cv2.blur(temp_mask,(3,3))
-        temp_mask = cv2.resize(temp_mask, dsize=(480, 320), interpolation=cv2.INTER_CUBIC)
+        temp_mask = TF.resize(temp_mask,(192,192))
+        temp_mask = TF.pad(temp_mask,(29,64,480-29-192,320-64-192))
         temp_mask = np.array(temp_mask,dtype=np.uint8,order='F')
+        print(temp_mask)
 
         if index==0 or np.sum(temp_mask)<=1000:
             continue
@@ -59,6 +62,23 @@ def mask_compress(in_masks):
         temp['counts'] = temp['counts'].decode()
         out_rles.append({'mask':temp})
     return out_rles
+
+# def generate_mask(dataset,model,from_file,to_file):
+#     with open(os.path.join(from_file),'r') as r:
+#         data_scenes = json.load(r)
+#     for i, data in enumerate(dataset):
+#         if i % 5 == 0:
+#             print("{:d}/{:d}\r".format(i,len(dataset)),end='',flush=True)
+#         model.set_input(data)  # unpack data from data loader
+#         model.test()           # run inference
+#         visuals = model.get_current_visuals()  # get image results
+#         rles = mask_compress(mask_preprocess([visuals['m%d'%i].squeeze().unsqueeze(-1).cpu().numpy() for i in range(11)]))
+#         data_scenes['scenes'][int(model.get_image_paths()[0][-10:-4])]['objects_detection'] = rles
+#     with open(os.path.join(opt.results_dir,'scenes_train.json'),'w') as w:
+#         print('saving scenes_train.json...')
+#         json.dump(data_scenes,w)
+
+
 
 if __name__ == '__main__':
     opt = MaskOptions().parse()  # get test options
