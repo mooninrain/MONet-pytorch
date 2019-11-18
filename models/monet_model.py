@@ -64,7 +64,6 @@ class MONetModel(BaseModel):
         """
         self.x = input['A'].to(self.device)
         self.image_paths = input['A_paths']
-        import pdb; pdb.set_trace()
 
     def forward(self):
         """Run forward pass. This will be called by both functions <optimize_parameters> and <test>."""
