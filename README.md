@@ -30,7 +30,7 @@ git clone https://github.com/baudm/MONet-pytorch.git
 cd MONet-pytorch
 ```
 
-- Install [PyTorch](http://pytorch.org and) 1.1+ and other dependencies (e.g., torchvision, [visdom](https://github.com/facebookresearch/visdom) and [dominate](https://github.com/Knio/dominate)).
+- Install [PyTorch](http://pytorch.org) 1.1+ and other dependencies (e.g., torchvision, [visdom](https://github.com/facebookresearch/visdom) and [dominate](https://github.com/Knio/dominate)).
   - For pip users, please type the command `pip install -r requirements.txt`.
   - For Conda users, we provide a installation script `./scripts/conda_deps.sh`. Alternatively, you can create a new Conda environment using `conda env create -f environment.yml`.
   - For Docker users, we provide the pre-built Docker image and Dockerfile. Please refer to our [Docker](docs/docker.md) page.
@@ -43,7 +43,7 @@ wget -cN https://dl.fbaipublicfiles.com/clevr/CLEVR_v1.0.zip
 - To view training results and loss plots, run `python -m visdom.server` and click the URL http://localhost:8097.
 - Train a model:
 ```bash
-python train.py --dataroot /data/vision/billf/jwu-recog/dataset/billf-10/CLEVR_v1.0 --name clevr_monet --model monet
+python train.py --dataroot /data/vision/billf/jwu-recog/dataset/billf-10/CLEVR_v1.0 --name monet_clevr_192_64 --model monet
 ```
 To see more intermediate results, check out `./checkpoints/clevr_monet/web/index.html`.
 
