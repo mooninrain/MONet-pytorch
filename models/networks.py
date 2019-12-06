@@ -695,7 +695,7 @@ class ComponentVAE(nn.Module):
 
         # "The height and width of the input to this CNN were both 8 larger than the target output (i.e. image) size
         #  to arrive at the target size (i.e. accommodating for the lack of padding)."
-        h, w = x.shape[-2:]
+        h, w = x.2[-2:]
         z_sb = self.spatial_broadcast(z, h + 8, w + 8)
 
         output = self.decoder(z_sb)
