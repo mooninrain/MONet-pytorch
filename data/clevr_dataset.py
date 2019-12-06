@@ -38,7 +38,10 @@ class CLEVRDataset(BaseDataset):
         self.A_paths = sorted(make_dataset(p, opt.max_dataset_size))
 
     def _transform(self, img):
-        img = TF.resized_crop(img, self.opt.crop_i, self.opt.crop_j, self.opt.crop_h, self.opt.crop_w, (self.opt.load_size,self.opt.load_size))
+        if self.opt.preprocess == 'resize_and_crop':
+            img = TF.resized_crop(img, self.opt.crop_i, self.opt.crop_j, self.opt.crop_h, self.opt.crop_w, (self.opt.load_size,self.opt.load_size))
+        elif self.opt.preprocess == 'resize':
+            img = TF.resize(img, (self.opt.load_size,self.opt.load_size))
         img = TF.to_tensor(img)
         img = TF.normalize(img, [0.5] * self.opt.input_nc, [0.5] * self.opt.input_nc)
         return img
