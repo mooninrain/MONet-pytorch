@@ -5,7 +5,10 @@ import shutil
 random.seed(123)
 
 ori_dir = '/data/vision/billf/scratch/ruidongwu/work/decomp/monet/data_dir/sth/20bn-something-something-v1'
-to_dir = '/data/vision/billf/scratch/ruidongwu/work/decomp/monet/data_dir/sthsth/images'
+to_dir = '/data/vision/billf/scratch/ruidongwu/work/decomp/monet/data_dir/sth_mini/images'
+if not os.path.exists(to_dir):
+    os.makedirs(to_dir)
+
 to_move_dirs = os.listdir(ori_dir)
 
 print('moving train pngs...')
