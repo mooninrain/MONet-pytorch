@@ -1,6 +1,4 @@
 import os
-import torch
-import random
 import shutil
 
 ori_dir = '/data/vision/billf/scratch/ruidongwu/work/decomp/monet/data_dir/birds/CUB_200_2011/images'
