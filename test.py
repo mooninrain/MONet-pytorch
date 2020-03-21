@@ -56,15 +56,14 @@ if __name__ == '__main__':
         model.eval()
     to_test_indexes = torch.linspace(0,len(dataset)-opt.num_test,opt.num_test)
     count = 0
-    for i in range(len(dataset)):
+    for i, data in enumerate(dataset):
         if i not in to_test_indexes:  # only apply our model to opt.num_test images.
             continue
-        data = dataset[i]
         model.set_input(data)  # unpack data from data loader
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
         img_path = model.get_image_paths()     # get image paths
-        if count % 10 == 0:  # save images to an HTML file
+        if count % 1 == 0:  # save images to an HTML file
             print('processing (%04d)-th image... %s' % (count, img_path))
         save_images(webpage, visuals, img_path, aspect_ratio=opt.aspect_ratio, width=opt.display_winsize)
         count+=1
