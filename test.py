@@ -56,9 +56,10 @@ if __name__ == '__main__':
         model.eval()
     to_test_indexes = torch.linspace(0,len(dataset)-opt.num_test,opt.num_test)
     count = 0
-    for i, data in enumerate(dataset):
+    for i in range(len(dataset)):
         if i not in to_test_indexes:  # only apply our model to opt.num_test images.
             continue
+        data = dataset[i]
         model.set_input(data)  # unpack data from data loader
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
