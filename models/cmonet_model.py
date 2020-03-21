@@ -103,7 +103,6 @@ class CMONetModel(BaseModel):
 
             # Classifier loss for concepts
             if k == self.opt.num_slots-1:
-                import pdb; pdb.set_trace()
                 c_k = self.netCls(x_k_masked)
                 self.loss_C = self.criterionCE(c_k, self.tag)
 
