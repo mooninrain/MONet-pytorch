@@ -128,7 +128,7 @@ class CMONetModel(BaseModel):
     def backward(self):
         """Calculate losses, gradients, and update network weights; called in every training iteration"""
         n = self.x.shape[0]
-        self.loss_c /= n
+        self.loss_C /= n
         self.loss_E /= n
         self.loss_D = -torch.logsumexp(self.b, dim=1).sum() / n
         self.loss_mask = self.criterionKL(self.m_tilde_logits.log_softmax(dim=1), self.m)
