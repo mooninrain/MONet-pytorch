@@ -45,6 +45,10 @@ wget -cN https://dl.fbaipublicfiles.com/clevr/CLEVR_v1.0.zip
 ```bash
 python train.py --dataroot /data/vision/billf/scratch/ruidongwu/work/decomp/monet/data_dir/sth_mini --name monet_sth_mini_raw-2-64 --model monet --preprocess resize
 ```
+or
+```bash
+python train.py --dataroot /data/vision/billf/scratch/ruidongwu/work/decomp/monet/data_dir/birds --name cmonet_birds --model cmonet --preprocess resize
+```
 To see more intermediate results, check out `./checkpoints/clevr_monet/web/index.html`.
 
 To generate a montage of the model outputs like the ones shown above:
