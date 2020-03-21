@@ -65,7 +65,6 @@ class CMONetModel(BaseModel):
         Parameters:
             input: a dictionary that contains the data itself and its metadata information.
         """
-        import pdb; pdb.set_trace()
         self.tag = input['tag'].to(self.device)
         self.x = input['A'].to(self.device)
         self.image_paths = input['A_paths']
