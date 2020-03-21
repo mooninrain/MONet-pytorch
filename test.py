@@ -40,7 +40,7 @@ if __name__ == '__main__':
     # hard-code some parameters for test
     opt.num_threads = 0   # test code only supports num_threads = 1
     opt.batch_size = 1    # test code only supports batch_size = 1
-    opt.serial_batches = True  # disable data shuffling; comment this line if results on randomly chosen images are needed.
+    # opt.serial_batches = True  # disable data shuffling; comment this line if results on randomly chosen images are needed.
     opt.no_flip = True    # no flip; comment this line if results on flipped images are needed.
     opt.display_id = -1   # no visdom display; the test code saves the results to a HTML file.
     dataset = create_dataset(opt)  # create a dataset given opt.dataset_mode and other options
@@ -54,17 +54,14 @@ if __name__ == '__main__':
     # For [CycleGAN]: It should not affect CycleGAN as CycleGAN uses instancenorm without dropout.
     if opt.eval:
         model.eval()
-    to_test_indexes = torch.linspace(0,len(dataset)-opt.num_test,opt.num_test)
-    count = 0
     for i, data in enumerate(dataset):
-        if i not in to_test_indexes:  # only apply our model to opt.num_test images.
-            continue
+        if i >= opt.num_test:  # only apply our model to opt.num_test images.
+            break
         model.set_input(data)  # unpack data from data loader
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
         img_path = model.get_image_paths()     # get image paths
-        if count % 1 == 0:  # save images to an HTML file
-            print('processing (%04d)-th image... %s' % (count, img_path))
+        if i % 5 == 0:  # save images to an HTML file
+            print('processing (%04d)-th image... %s' % (i, img_path))
         save_images(webpage, visuals, img_path, aspect_ratio=opt.aspect_ratio, width=opt.display_winsize)
-        count+=1
     webpage.save()  # save the HTML
