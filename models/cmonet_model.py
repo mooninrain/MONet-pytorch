@@ -103,8 +103,9 @@ class CMONetModel(BaseModel):
             x_k_masked = m_k * x_mu_k
 
             # Classifier loss for concepts
-            c_k = self.netCls(x_k_masked)
-            self.loss_C += self.criterionCE(c_k, self.tag)
+            if k == self.opt.num_slots-1:
+                c_k = self.netCls(x_k_masked)
+                self.loss_C = self.criterionCE(c_k, self.tag)
 
             # Exponents for the decoder loss
             b_k = log_m_k - 0.5 * x_logvar_k - (self.x - x_mu_k).pow(2) / (2 * x_logvar_k.exp())
@@ -128,7 +129,6 @@ class CMONetModel(BaseModel):
     def backward(self):
         """Calculate losses, gradients, and update network weights; called in every training iteration"""
         n = self.x.shape[0]
-        self.loss_C /= n
         self.loss_E /= n
         self.loss_D = -torch.logsumexp(self.b, dim=1).sum() / n
         self.loss_mask = self.criterionKL(self.m_tilde_logits.log_softmax(dim=1), self.m)
