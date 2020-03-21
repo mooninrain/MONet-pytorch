@@ -26,6 +26,7 @@ class MONetModel(BaseModel):
         parser.add_argument('--num_slots', metavar='K', type=int, default=7, help='Number of supported slots')
         parser.add_argument('--z_dim', type=int, default=16, help='Dimension of individual z latent per slot')
         if is_train:
+            parser.add_argument('--_lambda', type=float, default=1.0, help='weight for the classifier CE')
             parser.add_argument('--beta', type=float, default=0.5, help='weight for the encoder KLD')
             parser.add_argument('--gamma', type=float, default=0.5, help='weight for the mask KLD')
         return parser
@@ -62,7 +63,6 @@ class MONetModel(BaseModel):
         Parameters:
             input: a dictionary that contains the data itself and its metadata information.
         """
-        import pdb; pdb.set_trace()
         self.x = input['A'].to(self.device)
         self.image_paths = input['A_paths']
 
@@ -123,7 +123,8 @@ class MONetModel(BaseModel):
         self.loss_E /= n
         self.loss_D = -torch.logsumexp(self.b, dim=1).sum() / n
         self.loss_mask = self.criterionKL(self.m_tilde_logits.log_softmax(dim=1), self.m)
-        loss = self.loss_D + self.opt.beta * self.loss_E + self.opt.gamma * self.loss_mask
+        loss = (self.loss_D +
+        self.opt.beta * self.loss_E + self.opt.gamma * self.loss_mask)
         loss.backward()
 
     def optimize_parameters(self):
