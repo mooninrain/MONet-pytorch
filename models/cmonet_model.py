@@ -54,7 +54,7 @@ class CMONetModel(BaseModel):
         self.eps = torch.finfo(torch.float).eps
         # define networks; you can use opt.isTrain to specify different behaviors for training and test.
         if self.isTrain:  # only defined during training time
-            self.criterionCE = nn.CrossEntropyLoss(reduction='mean')
+            self.criterionCE = nn.CrossEntropyLoss(reduction='sum')
             self.criterionKL = nn.KLDivLoss(reduction='batchmean')
             self.optimizer = optim.RMSprop(chain(self.netAttn.parameters(), self.netCVAE.parameters()), lr=opt.lr)
             self.optimizers = [self.optimizer]
@@ -129,6 +129,7 @@ class CMONetModel(BaseModel):
     def backward(self):
         """Calculate losses, gradients, and update network weights; called in every training iteration"""
         n = self.x.shape[0]
+        self.loss_c /= n
         self.loss_E /= n
         self.loss_D = -torch.logsumexp(self.b, dim=1).sum() / n
         self.loss_mask = self.criterionKL(self.m_tilde_logits.log_softmax(dim=1), self.m)
