@@ -34,6 +34,7 @@ class BIRDSDataset(BaseDataset):
     def _transform(self, img):
         if self.opt.preprocess == 'resize_and_crop':
             raise ValueError('Do not crop birds dataset!')
+        elif self.opt.preprocess == 'resize':
             img = TF.resize(img, (self.opt.load_size,self.opt.load_size))
         img = TF.to_tensor(img)
         img = TF.normalize(img, [0.5] * self.opt.input_nc, [0.5] * self.opt.input_nc)
