@@ -58,7 +58,7 @@ if __name__ == '__main__':
     count = 0
     for i, data in enumerate(dataset):
         if i not in to_test_indexes:  # only apply our model to opt.num_test images.
-            break
+            continue
         model.set_input(data)  # unpack data from data loader
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
