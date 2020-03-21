@@ -22,7 +22,7 @@ class MONetModel(BaseModel):
             the modified parser.
         """
         parser.set_defaults(batch_size=32, lr=1e-4, display_ncols=7, niter_decay=0,
-                            dataset_mode='clevr', niter=int(64e6 // 7e4))
+                            dataset_mode='birds', niter=int(64e6 // 7e4))
         parser.add_argument('--num_slots', metavar='K', type=int, default=7, help='Number of supported slots')
         parser.add_argument('--z_dim', type=int, default=16, help='Dimension of individual z latent per slot')
         if is_train:
@@ -66,8 +66,7 @@ class MONetModel(BaseModel):
             input: a dictionary that contains the data itself and its metadata information.
         """
         import pdb; pdb.set_trace()
-        if 'C' in self.loss_names:
-            self.tag = input['tag'].to(self.device)
+        self.tag = input['tag'].to(self.device)
         self.x = input['A'].to(self.device)
         self.image_paths = input['A_paths']
 
@@ -104,9 +103,8 @@ class MONetModel(BaseModel):
             x_k_masked = m_k * x_mu_k
 
             # Classifier loss for concepts
-            if self.opt.add_supervision:
-                c_k = self.netCls(x_k_masked)
-                self.loss_C += self.criterionCE(c_k, self.tag)
+            c_k = self.netCls(x_k_masked)
+            self.loss_C += self.criterionCE(c_k, self.tag)
 
             # Exponents for the decoder loss
             b_k = log_m_k - 0.5 * x_logvar_k - (self.x - x_mu_k).pow(2) / (2 * x_logvar_k.exp())
