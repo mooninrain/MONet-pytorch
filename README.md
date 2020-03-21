@@ -47,7 +47,7 @@ python train.py --dataroot /data/vision/billf/scratch/ruidongwu/work/decomp/mone
 ```
 or
 ```bash
-python train.py --dataroot /data/vision/billf/scratch/ruidongwu/work/decomp/monet/data_dir/birds --name cmonet_birds --model cmonet --preprocess resize
+python train.py --dataroot /data/vision/billf/scratch/ruidongwu/work/decomp/monet/data_dir/birds --name cmonet_birds --model cmonet --preprocess resize --num_slots 2
 ```
 To see more intermediate results, check out `./checkpoints/clevr_monet/web/index.html`.
 
