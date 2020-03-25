@@ -105,7 +105,7 @@ class CMONetModel(BaseModel):
             if k == self.opt.num_slots-1:
                 c_k = self.netCls(x_k_masked)
                 self.loss_C = self.criterionCE(c_k, self.tag)
-                self.loss_acc = torch.mean(torch.max(c_k,dim=1)[1] == self.tag)
+                self.loss_acc = torch.mean((torch.max(c_k,dim=1)[1] == self.tag).float())
 
             # Exponents for the decoder loss
             b_k = log_m_k - 0.5 * x_logvar_k - (self.x - x_mu_k).pow(2) / (2 * x_logvar_k.exp())
