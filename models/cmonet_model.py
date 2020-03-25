@@ -104,6 +104,7 @@ class CMONetModel(BaseModel):
             # Classifier loss for concepts
             if k == self.opt.num_slots-1:
                 c_k = self.netCls(x_k_masked)
+                import pdb; pdb.set_trace()
                 self.loss_C = self.criterionCE(c_k, self.tag)
                 self.loss_acc = torch.mean((torch.max(c_k,dim=1)[1] == self.tag).float())
 
