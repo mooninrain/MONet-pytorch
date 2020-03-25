@@ -137,9 +137,6 @@ class CMONetModel(BaseModel):
         self.opt.beta * self.loss_E + self.opt.gamma * self.loss_mask)
         loss.backward()
 
-    def eval(self):
-        self.loss_acc = 
-
     def optimize_parameters(self):
         """Update network weights; it will be called in every training iteration."""
         self.forward()               # first call forward to calculate intermediate results
