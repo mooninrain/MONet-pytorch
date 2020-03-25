@@ -42,7 +42,7 @@ class CMONetModel(BaseModel):
         - define loss function, visualization images, model names, and optimizers
         """
         BaseModel.__init__(self, opt)  # call the initialization method of BaseModel
-        self.loss_names  = ['E', 'D', 'mask', 'C']
+        self.loss_names  = ['E', 'D', 'mask', 'C', 'acc']
         self.visual_names = ['m{}'.format(i) for i in range(opt.num_slots)] + \
                             ['x{}'.format(i) for i in range(opt.num_slots)] + \
                             ['xm{}'.format(i) for i in range(opt.num_slots)] + \
@@ -105,6 +105,7 @@ class CMONetModel(BaseModel):
             if k == self.opt.num_slots-1:
                 c_k = self.netCls(x_k_masked)
                 self.loss_C = self.criterionCE(c_k, self.tag)
+                self.loss_acc = torch.mean(torch.max(c_k,dim=1)[1] == self.tag)
 
             # Exponents for the decoder loss
             b_k = log_m_k - 0.5 * x_logvar_k - (self.x - x_mu_k).pow(2) / (2 * x_logvar_k.exp())
@@ -135,6 +136,9 @@ class CMONetModel(BaseModel):
         loss = (self.loss_D + self.opt._lambda * self.loss_C +
         self.opt.beta * self.loss_E + self.opt.gamma * self.loss_mask)
         loss.backward()
+
+    def eval(self):
+        self.loss_acc = 
 
     def optimize_parameters(self):
         """Update network weights; it will be called in every training iteration."""
