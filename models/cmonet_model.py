@@ -56,7 +56,10 @@ class CMONetModel(BaseModel):
         if self.isTrain:  # only defined during training time
             self.criterionCE = nn.CrossEntropyLoss(reduction='sum')
             self.criterionKL = nn.KLDivLoss(reduction='batchmean')
-            self.optimizer = optim.RMSprop(chain(self.netAttn.parameters(), self.netCVAE.parameters()), lr=opt.lr)
+            self.optimizer = optim.RMSprop(chain(
+                self.netAttn.parameters(),
+                self.netCVAE.parameters(),
+                self.netCls.parameters()), lr=opt.lr)
             self.optimizers = [self.optimizer]
 
     def set_input(self, input):
