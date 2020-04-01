@@ -26,7 +26,7 @@ class CMONetModel(BaseModel):
         parser.add_argument('--num_slots', metavar='K', type=int, default=7, help='Number of supported slots')
         parser.add_argument('--z_dim', type=int, default=16, help='Dimension of individual z latent per slot')
         if is_train:
-            parser.add_argument('--_lambda', type=float, default=1.0, help='weight for the classifier CE')
+            parser.add_argument('--_lambda', type=float, default=100.0, help='weight for the classifier CE')
             parser.add_argument('--beta', type=float, default=0.5, help='weight for the encoder KLD')
             parser.add_argument('--gamma', type=float, default=0.5, help='weight for the mask KLD')
         return parser
