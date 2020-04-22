@@ -13,4 +13,3 @@ for k, _dir_ in enumerate(to_move_dirs):
     print('{:d}/{:d}\r'.format(k,len(to_move_dirs)),end='',flush=True)
     to_move_png = os.path.join(ori_dir,_dir_,'parts_render_after_merging','0.png')
     shutil.copy(to_move_png,os.path.join(to_dir,_dir_+'.png'))
-
