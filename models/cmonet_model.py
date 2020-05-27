@@ -96,7 +96,7 @@ class CMONetModel(BaseModel):
                 log_m_k = log_s_k
 
             # Get component and mask reconstruction, as well as the z_k parameters
-            m_tilde_k_logits, x_mu_k, x_logvar_k, z_mu_k, z_logvar_k = self.netCVAE(self.x, log_m_k, False)
+            m_tilde_k_logits, x_mu_k, x_logvar_k, z_mu_k, z_logvar_k = self.netCVAE(self.x, log_m_k, k==0)
 
             # KLD is additive for independent distributions
             self.loss_E += -0.5 * (1 + z_logvar_k - z_mu_k.pow(2) - z_logvar_k.exp()).sum()
