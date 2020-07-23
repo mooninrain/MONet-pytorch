@@ -793,3 +793,29 @@ class Attention(nn.Module):
         x = self.output(x)
         x = F.logsigmoid(x)
         return x
+
+class Classifier(nn.Module):
+    # specific for concept monet
+    def __init__(self, input_nc, full_res=False, class_num=200):
+        super().__init__()
+        self.input_nc = input_nc
+        self.class_num = class_num
+        h_dim = 4096 if full_res else 1024
+        self.encoder = nn.Sequential(
+            nn.Conv2d(input_nc, 32, 3, stride=2, padding=1),
+            nn.ReLU(True),
+            nn.Conv2d(32, 32, 3, stride=2, padding=1),
+            nn.ReLU(True),
+            nn.Conv2d(32, 64, 3, stride=2, padding=1),
+            nn.ReLU(True),
+            nn.Conv2d(64, 64, 3, stride=2, padding=1),
+            nn.ReLU(True),
+            Flatten(),
+            nn.Linear(h_dim, 256),
+            nn.ReLU(True),
+            nn.Linear(256, self.class_num)
+        )
+
+    def forward(self,x):
+        # x [N,3,H,W]
+        return self.encoder(x)
